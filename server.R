@@ -88,7 +88,7 @@ Insilico<-reactive({ DIGEST(seq(), sites=input$cleavSite, term=input$side ,misse
     Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm)[,c(-7,-8)]}, options=list(
       lengthMenu=list(c(50,100,-1),c("50","100","All")),
       pageLength=100)) })
- output$dld.target<-downloadHandler(filename=function(){paste("Targeted-MS","-List",".csv",sep="")}, content=function(file){write.csv(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm)[,c(-7,-8)], file)})   
+ output$dld.target<-downloadHandler(filename=function(){paste("Targeted-MS-",Sys.Date(),".csv",sep="")}, content=function(file){write.csv(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm)[,c(-7,-8)], file)})   
     
   
 })
