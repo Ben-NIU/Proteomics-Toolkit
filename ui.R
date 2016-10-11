@@ -1,6 +1,6 @@
 library(shiny)
 library(DT)
-
+library(plotly)
 shinyUI(fluidPage(
   titlePanel(
   fluidRow(column(8, div(p(strong("Proteomics Toolkit")),style="font-family:'kokonor';color:black; font-size:30pt"),
