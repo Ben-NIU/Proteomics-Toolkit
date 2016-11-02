@@ -85,10 +85,10 @@ Insilico<-reactive({ DIGEST(seq(), sites=input$cleavSite, term=input$side ,misse
   
   observeEvent(input$targeted, {
    output$tb4<-DT::renderDataTable({
-    isolate(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz)[,c(-7,-8)])}, options=list(
+    isolate(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz, input$NM, input$Fml, input$allRes)[,c(-7,-8, -9)])}, options=list(
       lengthMenu=list(c(50,100,-1),c("50","100","All")),
       pageLength=100)) })
- output$dld.target<-downloadHandler(filename=function(){paste("Targeted-MS-",Sys.Date(),".csv",sep="")}, content=function(file){write.csv(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz)[,c(-7,-8)], file)})   
+ output$dld.target<-downloadHandler(filename=function(){paste("Targeted-MS-",Sys.Date(),".csv",sep="")}, content=function(file){write.csv(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz,input$NM, input$Fml, input$allRes)[,c(-7,-8,-9)], file)})   
     
   
 })

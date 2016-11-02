@@ -84,6 +84,11 @@ shinyUI(fluidPage(
                     column(4, checkboxGroupInput("target.ptm", label = div(h4(strong("PTMs to include")),style="font-family:'chalkboard se';color:darkblue; font-size:12pt"), choices=list("none","Oxidation","diOxidation","triOxidation","Carbonyl","Deamidation(N)","Phosphorylation(S,T,Y)"),selected="none"))
                   ),
                   fluidRow(
+                  	column(3, textInput("NM", label=div(strong("Name"), style="font-family:'chalkboard se';color:darkblue; font-size:12pt"), placeholder="e.g., FMe")),
+                  	column(4, textInput("Fml", label=div(strong("PTM formula"), style="font-family:'chalkboard se';color:darkblue; font-size:12pt"), placeholder="C16 H26")),
+                  	column(3, selectInput("allRes", label=div(strong("labeled Resi."), style="font-family:'chalkboard se';color:darkblue;font-size:12pt"), choices=strsplit("ACDEFGHIKLMNPQRSTVWY", split="")[[1]], multiple=TRUE))
+                  	),
+                  fluidRow(
                     column(4, numericInput("lowmz", label=span(strong("Lower Shreshold", style="font-family:'chalkboard se';color:darkgreen; font-size:12pt")), value=150, min=50, max=600, step=1)),
                     column(4, numericInput("highmz", label=span(strong("Higher Shreshold", style="font-family:'chalkboard se';color:darkgreen; font-size:12pt")), value=4000, min=3000, max=5000, step=1))
                     ),

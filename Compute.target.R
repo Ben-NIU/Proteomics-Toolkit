@@ -1,10 +1,12 @@
-Compute.target<-function(DIGest, CS.from, CS.to, MOD, min,max){
+Compute.target<-function(DIGest, CS.from, CS.to, MOD, min,max, NM="", Fml="", RES=""){
+  source("form.R")
+  source("j.R")
   sta<-DIGest$start
   stp<-DIGest$stop
-  MD.list<-data.frame("md"=c("none","Oxidation","diOxidation","triOxidation","Carbonyl","Deamidation(N)","Phosphorylation(S,T,Y)"),"add.mass"=c(0,15.99491,31.98983,47.98474, 13.97926, 0.9840156,79.96633))
+  MD.list<-data.frame("md"=c("none","Oxidation","diOxidation","triOxidation","Carbonyl","Deamidation(N)","Phosphorylation(S,T,Y)",NM),"add.mass"=c(0,15.99491,31.98983,47.98474, 13.97926, 0.9840156,79.96633, MonoisotopicMass(form(Fml))))
   pp<-row.names(DIGest)
   cp<-lapply(pp, ConvertPeptide, IAA=TRUE)
-  MD<-MD.list[MD.list$md %in% MOD,]
+  MD<-MD.list[MD.list$md %in% c(MOD,NM),]
   line<-NULL
   for(m in MD$add.mass){
   	for(i in CS.from:CS.to){
@@ -17,10 +19,13 @@ Compute.target<-function(DIGest, CS.from, CS.to, MOD, min,max){
   line$Sequence<-pp
   judge.deami<-unlist(lapply(line$Sequence, function(x){"N" %in% strsplit(x, "")[[1]]}))
   judge.phosph<-unlist(lapply(line$Sequence, function(x){"Y" %in% strsplit(x, "")[[1]]})) | unlist(lapply(line$Sequence, function(x){"S" %in% strsplit(x, "")[[1]]})) | unlist(lapply(line$Sequence, function(x){"T" %in% strsplit(x, "")[[1]]}))
+  judge.Fml<-unlist(lapply(line$Sequence, j, RES=RES))
   line$Judge.deami<-judge.deami
   line$Judge.phosph<-judge.phosph
+  line$Judge.Fml<-judge.Fml
   line<-subset(line, !(Mod=="Deamidation(N)" & Judge.deami==FALSE))
   line<-subset(line, !(Mod=="Phosphorylation(S,T,Y)" & Judge.phosph==FALSE))
+  line<-subset(line, !(Mod==NM & Judge.Fml==FALSE))
   line<-subset(line, line[,1]>=min & line[,1]<=max)
   return(line)
 }
