@@ -26,7 +26,7 @@ shinyUI(fluidPage(
         
         mainPanel(
           tabsetPanel(type="tabs", 
-                tabPanel(title=span("Peptide Computations", style="font-family:'marlett';color:darkgreen;font-size:10pt"),icon = icon("calculator",lib = "font-awesome"),
+                tabPanel(title=span(strong("Peptide Computations"), style="font-family:'constantia';color:darkgreen;font-size:10pt"),icon = icon("calculator",lib = "font-awesome"),
                         br(),
                 fluidRow(
                            column(5, div(h4(em(p("Peptide Sequence"))), style="font-family:'hannotate tc';color:darkgreen")),
@@ -46,7 +46,7 @@ shinyUI(fluidPage(
                 column(8,DT::dataTableOutput("tb2.pp"), offset = 3)
              )
           ),       
-          tabPanel(span("MS Spectral Simulation",style="font-family:'marlett';color:darkgreen;font-size:10pt"), icon=icon("laptop",lib = "font-awesome"),
+          tabPanel(span(strong("MS Spectral Simulation"),style="font-family:'constantia';color:darkgreen;font-size:10pt"), icon=icon("laptop",lib = "font-awesome"),
                    br(),
                    div(h4(em(p("Formula (with PTMs)"))), style="font-family:'hannotate tc';color:darkgreen"),
                    fluidRow(

@@ -124,7 +124,6 @@ shinyServer(function(input, output) {
     PLOTLY(d.pp())
   })  
   
- NCOL<-observe({2+as.numeric(input$protein.tocs)-as.numeric(input$protein.fromcs)})
   output$text1<-renderText({
     seq()
     })
