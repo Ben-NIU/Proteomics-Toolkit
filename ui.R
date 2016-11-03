@@ -86,7 +86,7 @@ shinyUI(fluidPage(
     
     mainPanel(
       tabsetPanel(type="tabs",
-          tabPanel(span("Computations", style="font-family:'marlett';color:purple;font-size:10pt"),icon = icon("calculator",lib = "font-awesome"),
+          tabPanel(span(strong("Computations"), style="font-family:'constantia';color:purple;font-size:10pt"),icon = icon("calculator",lib = "font-awesome"),
          br(),
       fluidRow(
         column(5, div(h4(em(p("Protein Sequence"))), style="font-family:'hannotate tc';color:purple")),
@@ -110,7 +110,7 @@ shinyUI(fluidPage(
       column(8,DT::dataTableOutput("tb2"), offset = 3)
       )
           ),
-         tabPanel(span("MS Spectral Simulation",style="font-family:'marlett';color:purple;font-size:10pt"),icon = icon("laptop",lib = "font-awesome"),
+         tabPanel(span(strong("MS Spectral Simulation"),style="font-family:'constantia';color:purple;font-size:10pt"),icon = icon("laptop",lib = "font-awesome"),
                   br(),
                div(h4(em(p("Formula (with PTMs)"))), style="font-family:'hannotate tc';color:purple"),
                fluidRow(
@@ -125,7 +125,7 @@ shinyUI(fluidPage(
               hr(),
               plotlyOutput("Idplot")
                   ),
-         tabPanel(span(strong(em("in silico")), "Digestion",style="font-family:'marlett';color:purple;font-size:10pt"),icon = icon("align-right",lib = "font-awesome"),
+         tabPanel(span(strong(em("in silico")), strong("Digestion"),style="font-family:'constantia';color:purple;font-size:10pt"),icon = icon("align-right",lib = "font-awesome"),
                   br(),
                   fluidRow(
                     column(3, textInput("cleavSite", label=div(h4(em("Cleavage Sites")), style="font-family:'hannotate tc';color:purple;font-size:12pt"), placeholder = "e.g., RK")),
@@ -138,7 +138,7 @@ shinyUI(fluidPage(
                   DT::dataTableOutput("tb3")
                   
                   ),
-         tabPanel(span("Targeted m/z", style="font-family:'marlett';color:purple;font-size:10pt"),icon = icon("map-marker",lib = "font-awesome"),
+         tabPanel(span(strong("Targeted m/z"), style="font-family:'constantia';color:purple;font-size:10pt"),icon = icon("map-marker",lib = "font-awesome"),
                   br(),
                   fluidRow(
                     column(3, div(h4(em("Charge from")), style="font-family:'hannotate tc';color:purple; font-size:12pt", align="center")),
