@@ -1,11 +1,17 @@
-Compute.target<-function(DIGest, CS.from, CS.to, MOD, min,max, NM="", Fml="", RES=""){
+Compute.target<-function(DIGest, CS.from, CS.to, MOD, min,max, NM="", Fml="", RES="", ptm1, res1, ptm2, res2, ptm3, res3, ptmfml, resfml){
   source("form.R")
   source("j.R")
+  source("Fixed.Mod.R")
   sta<-DIGest$start
   stp<-DIGest$stop
-  MD.list<-data.frame("md"=c("none","Oxidation","diOxidation","triOxidation","Carbonyl","Deamidation(N)","Phosphorylation(S,T,Y)",NM),"add.mass"=c(0,15.99491,31.98983,47.98474, 13.97926, 0.9840156,79.96633, MonoisotopicMass(form(Fml))))
+  MD.list<-data.frame("md"=c("none","Oxidation","diOxidation","triOxidation","Carbonyl","Deamidation(N)","Phosphorylation(S,T,Y)",NM),"add.mass"=c(0,15.99491,31.98983,47.98474, 13.97926, 0.9840156,79.96633, MonoisotopicMass(form(Fml))))  ## the mods here are all about variable modifications.##
+  if(MD.list$add.mass[8]==0){
+  	MD.list<-MD.list[1:7,]
+  	} else {
+  		MD.list<-MD.list} ## this is to get rid of the redundant add.mass=0, because if user doesn't input variable PTM formula, the function thinks the add mass is 0, which is the same as "none".
+  		
   pp<-row.names(DIGest)
-  cp<-lapply(pp, ConvertPeptide, IAA=TRUE)
+  cp<-Fixed.Mod(DIGest, ptm1, res1, ptm2, res2, ptm3, res3, ptmfml, resfml)
   MD<-MD.list[MD.list$md %in% c(MOD,NM),]
   line<-NULL
   for(m in MD$add.mass){

@@ -54,7 +54,7 @@ shinyUI(fluidPage(
                    ),
                    hr(),
                    fluidRow(
-                     column(5, div(h4(p(em("Charge State to Simulate: "))), style="font-family:'hannotate tc';color:darkgreen")),
+                     column(4, div(h4(p(em("Charge State to Simulate: "))), style="font-family:'hannotate tc';color:darkgreen")),
                      column(2, numericInput("ecs.pp", label=NULL, value=1,width='80%', min=1, step=1)),
                      column(2, actionButton("sim.pp", label = span(strong("Simulate"), style="font-family:'wawati tc';color:darkgreen; font-size:12pt"), icon=icon("bar-chart",lib="font-awesome")))
                    ),
@@ -72,9 +72,12 @@ shinyUI(fluidPage(
     sidebarPanel(
       textInput("seq", label=div(em("Input protein sequence"),style="font-family:'marker felt';color:purple; font-size:12pt")),
       radioButtons("Cys", label=div(em("Carbamiodomethyl on Cys ?"),style="font-family:'marker felt';color:purple; font-size:12pt"), choices = list("Yes","No"), selected = "Yes"),
-      textInput("ptmFormula", label = div(p(em(span("PTM in formula",style="font-family:'marker felt';color:purple; font-size:12pt")))), placeholder = "for example: C5 H10 S F2"),
+      fluidRow(
+        column(7, textInput("ptmFormula", label = div(p(em(span("fixed PTM formula",style="font-family:'marker felt';color:purple; font-size:12pt")))), placeholder = "e.g., C5 F3 N6")),
+        column(4, uiOutput("ud"))
+      ),
       hr(),
-      div(p(strong(em("Residue-specific PTMs"))), style="font-family:'marker felt';color:purple; font-size:12pt"),
+      div(p(strong(em("fixed Residue-specific common PTMs"))), style="font-family:'marker felt';color:purple; font-size:12pt"),
       fluidRow(column(7,uiOutput("PTM1")),
                column(4, uiOutput("Resi1"))),
       fluidRow(column(7, uiOutput("PTM2")),
@@ -118,7 +121,7 @@ shinyUI(fluidPage(
                  ),
                hr(),
               fluidRow(
-              column(6, div(h4(p(em("Charge State to Simulate: "))), style="font-family:'hannotate tc';color:purple")),
+              column(4, div(h4(p(em("Charge State to Simulate: "))), style="font-family:'hannotate tc';color:purple")),
               column(2, numericInput("ecs", label=NULL, value=1,width='80%', min=1, step=1)),
               column(2, actionButton("sim", label = span(strong("Simulate"), style="font-family:'wawati tc';color:purple; font-size:12pt"), icon=icon("bar-chart",lib="font-awesome")))
               ),
@@ -147,12 +150,12 @@ shinyUI(fluidPage(
                     column(2, numericInput("csto", label=NULL, value=5, min=2, step=1, width="80%"))
                     ),
                   fluidRow(
-                    column(6, selectInput("target.ptm", label = div(h4(em("PTMs to include")),style="font-family:'hannotate tc';color:purple; font-size:14pt"), choices=list("none","Oxidation","diOxidation","triOxidation","Carbonyl","Deamidation(N)","Phosphorylation(S,T,Y)"),selected="none",selectize = TRUE, multiple = TRUE)),
+                    column(6, selectInput("target.ptm", label = div(h4(em("common Variable PTMs to include")),style="font-family:'hannotate tc';color:purple; font-size:14pt"), choices=list("none","Oxidation","diOxidation","triOxidation","Carbonyl","Deamidation(N)","Phosphorylation(S,T,Y)"),selected="none",selectize = TRUE, multiple = TRUE)),
                     column(3, numericInput("lowmz", label=span(h4(em("Lowest m/z")), style="font-family:'hannotate tc';color:purple; font-size:12pt"), value=150, min=50, max=600, step=1)),
                     column(3, numericInput("highmz", label=span(h4(em("Highest m/z")), style="font-family:'hannotate tc';color:purple; font-size:12pt"), value=4000, min=3000, max=5000, step=1))
                   ),
                   hr(),
-                  div(h4(strong(em("User-defined PTM*"))), style="font-family:'hannotate tc';color:purple; font-size:12pt"),
+                  div(h4(strong(em("User-defined Variable PTM*"))), style="font-family:'hannotate tc';color:purple; font-size:12pt"),
                   fluidRow(
                   	column(3, textInput("NM", label=div(em("PTM name"), style="font-family:'hannotate tc';color:purple; font-size:12pt"), placeholder="e.g., FMe")),
                   	column(5, textInput("Fml", label=div(em("PTM formula"), style="font-family:'hannotate tc';color:purple; font-size:12pt"), placeholder="e.g., C16 H26")),

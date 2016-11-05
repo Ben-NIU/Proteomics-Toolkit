@@ -6,6 +6,7 @@ source("Compute2.protein.R")
 source("form.R")
 source("PLOTLY.R")
 source("DIGEST.R")
+source("Fixed.Mod.R")
 source("Compute.target.R")
 shinyServer(function(input, output) {
 ######  
@@ -68,13 +69,22 @@ shinyServer(function(input, output) {
   output$PTM3<-renderUI({
     selectInput("PTM3", label=div("PTM #3",style="font-family:'futura';font-size:10pt"), choices =list("none", "Deamidated","Amidated", "Bromo","Phospho","Dimethyl","Trimethyl","Carbonyl"), multiple = FALSE, width="80%" )
   })
+  output$ud<-renderUI({
+    selectInput("ud", label=div(p(em(span("Residue(s)"))),style="font-family:'marker felt';color:purple; font-size:12pt"), choices = Cov(seq()), multiple = TRUE)
+  })
 ######
   PF.pp<-reactive({form(input$ptmFormula.pp)})
   mz.pp<-reactive({ Compute2(seq.pp(), IAA.pp(), resi1=length(input$Resi1.pp), ptm1=input$PTM1.pp, resi2=length(input$Resi2.pp), ptm2=input$PTM2.pp, resi3=length(input$Resi3.pp), ptm3=input$PTM3.pp, ptm4=input$chkbx.pp, ptm.form=PF.pp()) })
   ct.pp<-reactive({ length(strsplit(seq.pp(), "")[[1]])})
+  ## this fmz() function takes the ls from mz, and convert the ls to list with the correct number of H.
+  fmz<-function(x, charge){
+    y<-x$ls
+    y$H<-y$H+charge
+    as.list(y)}
   
   Fnow.pp<-reactive({paste(names(mz.pp()$ls)[mz.pp()$ls>0], mz.pp()$ls[mz.pp()$ls>0], sep="") })
-  Itd.pp<-eventReactive(input$sim.pp,{ IsotopicDistribution(formula=list(C=mz.pp()$ls$C, H=mz.pp()$ls$H+input$ecs.pp, N=mz.pp()$ls$N, O=mz.pp()$ls$O, S=mz.pp()$ls$S, P=mz.pp()$ls$P, Br=mz.pp()$ls$Br), charge=input$ecs.pp)})
+  fj.pp<-reactive({fmz(mz.pp(), input$ecs.pp)})
+  Itd.pp<-eventReactive(input$sim.pp,{ IsotopicDistribution(as.list(fj.pp()), charge=input$ecs.pp)})
   
   
   PF<-reactive({form(input$ptmFormula)})
@@ -82,7 +92,9 @@ shinyServer(function(input, output) {
   ct<-reactive({ length(strsplit(seq(), "")[[1]])})
 
   Fnow<-reactive({paste(names(mz()$ls)[mz()$ls>0], mz()$ls[mz()$ls>0], sep="") })
-  Itd<-eventReactive(input$sim,{ IsotopicDistribution(formula=list(C=mz()$ls$C, H=mz()$ls$H+input$ecs, N=mz()$ls$N, O=mz()$ls$O, S=mz()$ls$S, P=mz()$ls$P, Br=mz()$ls$Br), charge=input$ecs)})
+ 
+  fj<-reactive({fmz(mz(), input$ecs)})
+  Itd<-eventReactive(input$sim,{ IsotopicDistribution(as.list(fj()), charge=input$ecs)})
 ######
    
 ## The following three lines serve to reshape the plotting data (simulated MS),
@@ -161,10 +173,10 @@ Insilico<-reactive({ DIGEST(seq(), sites=input$cleavSite, term=input$side ,misse
   
   observeEvent(input$targeted, {
    output$tb4<-DT::renderDataTable({
-    isolate(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz, input$NM, input$Fml, input$allRes)[,c(-7,-8, -9)])}, options=list(
+    isolate(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz, input$NM, input$Fml, input$allRes, input$PTM1, input$Resi1, input$PTM2, input$Resi2, input$PTM3, input$Resi3, input$ptmFormula, input$ud)[,c(-7,-8, -9)])}, options=list(
       lengthMenu=list(c(50,100,-1),c("50","100","All")),
       pageLength=100)) })
- output$dld.target<-downloadHandler(filename=function(){paste("Targeted-MS-",Sys.Date(),".csv",sep="")}, content=function(file){write.csv(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz,input$NM, input$Fml, input$allRes)[,c(-7,-8,-9)], file)})   
+ output$dld.target<-downloadHandler(filename=function(){paste("Targeted-MS-",Sys.Date(),".csv",sep="")}, content=function(file){write.csv(Compute.target(Insilico(),input$csfrom, input$csto,input$target.ptm, input$lowmz, input$highmz,input$NM, input$Fml, input$allRes,input$PTM1, input$Resi1, input$PTM2, input$Resi2, input$PTM3, input$Resi3, input$ptmFormula, input$ud)[,c(-7,-8,-9)], file)})   
     
   
 })

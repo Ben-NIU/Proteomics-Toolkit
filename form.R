@@ -13,5 +13,6 @@ form<-function(md){
   g<-as.list(rep(0, 10))
   names(g)<-c("C","H","N","O","S","P","Br","Cl","Si","F")
   gg<-c(g[!names(g) %in% names(num)], num)
+  gg<-list("C"=gg$C, "H"=gg$H,"N"=gg$N,"O"=gg$O,"S"=gg$S,"P"=gg$P,"Br"=gg$Br,"Cl"=gg$Cl,"Si"=gg$Si,"F"=gg$F)
   return(gg)
 }
