@@ -95,21 +95,7 @@ shinyServer(function(input, output) {
  
   fj<-reactive({fmz(mz(), input$ecs)})
   Itd<-eventReactive(input$sim,{ IsotopicDistribution(as.list(fj()), charge=input$ecs)})
-######
-   
-## The following three lines serve to reshape the plotting data (simulated MS),
- ## so that the peaks to be shown on the plot will occupy the 6/8 of total m/z range,
- ## the far-left and far-right side will be left blank, for better view.
-  
-######
-  d.before.pp<-reactive({data.frame(mz=min(Itd.pp()$mz)-(max(Itd.pp()$mz)-min(Itd.pp()$mz))*1/8,intensity=0, percent=0) })
-  d.after.pp<-reactive({ data.frame(mz=max(Itd.pp()$mz)+(max(Itd.pp()$mz)-min(Itd.pp()$mz))*1/8, intensity=0, percent=0) })
-  d.pp<-reactive({rbind(d.before.pp(), Itd.pp(), d.after.pp()) })
-  
-  
-  d.before<-reactive({data.frame(mz=min(Itd()$mz)-(max(Itd()$mz)-min(Itd()$mz))*1/8,intensity=0, percent=0) })
-  d.after<-reactive({ data.frame(mz=max(Itd()$mz)+(max(Itd()$mz)-min(Itd()$mz))*1/8, intensity=0, percent=0) })
-  d<-reactive({rbind(d.before(), Itd(), d.after()) })
+
 ######
   output$text1.pp<-renderText({
     seq.pp()
@@ -133,7 +119,7 @@ shinyServer(function(input, output) {
   output$text4.pp<-renderText({
     Fnow.pp()})
   output$Idplot.pp<-renderPlotly({
-    PLOTLY(d.pp())
+    PLOTLY(Itd.pp())
   })  
   
   output$text1<-renderText({
@@ -159,7 +145,7 @@ shinyServer(function(input, output) {
   output$text4<-renderText({
     Fnow()})
   output$Idplot<-renderPlotly({
-    PLOTLY(d())
+    PLOTLY(Itd())
     })
 ######
   
