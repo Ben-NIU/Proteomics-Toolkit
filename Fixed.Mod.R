@@ -2,12 +2,16 @@ Fixed.Mod<-function(peptides, ptm1, res1, ptm2, res2, ptm3, res3, ptmfml, resfml
   source("Res.to.Num.R")
   source("form.R")
   PTM<-data.frame("C"=c(0,0,0,0,0,2,0,0,0,0,0,2,3,0,0),"H"=c(0,0,0,0,1,2,1,-1,3,-3,-2,4,6,0,-2),"N"=c(0,0,0,0,0,0,1,-1,1,-1,0,0,0,0,0),"O"=c(0,1,2,3,3,1,-1,1,0,0,-1,0,0,0,1),"S"=c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), "P"=c(0,0,0,0,1,0,0,0,0,0,0,0,0,0,0),"Br"=c(0,0,0,0,0,0,0,0,0,0,0,0,0,1,0),"Cl"=c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),"Si"=c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),"F"=c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0))
-  PTM.add<-form(ptmfml)
+  if(substr(resfml,1,1)!="C"){
+    PTM.add<-form(ptmfml)
+    } else {
+      PTM.add<-list("C"=form(ptmfml)$C-2, "H"=form(ptmfml)$H-3, "N"=form(ptmfml)$N-1, "O"=form(ptmfml)$O-1, "S"=form(ptmfml)$S, "P"=form(ptmfml)$P, "Br"=form(ptmfml)$Br, "Cl"=form(ptmfml)$Cl, "Si"=form(ptmfml)$Si, "F"=form(ptmfml)$F)}
+  
   PTM<-rbind(PTM, PTM.add)
   row.names(PTM)<-c("none","monoOxi","diOxi","triOxi","Phospho","Acetyl","Amidated","Deamidated","Ammonium-add","Ammonium-loss","Dehydrated","Dimethyl","Trimethyl","Bromo","Carbonyl",ptmfml)
   
   al<-data.frame("RES"=c(Res.to.Num(res1), Res.to.Num(res2), Res.to.Num(res3),Res.to.Num(resfml)), "PTM"=c(rep(ptm1, length(res1)), rep(ptm2, length(res2)), rep(ptm3, length(res3)),rep(ptmfml, length(resfml))))
-  
+   
   peptides$Mods<-rep("",nrow(peptides))
   for(i in 1:nrow(peptides)){
     id<-which(al$RES>=peptides$start[i] & al$RES<=peptides$stop[i])

@@ -107,7 +107,7 @@ shinyServer(function(input, output) {
     ct.pp()})
   output$tb1.pp<-renderTable({
     mz.pp()$TB
-  }, digits=4, align=rep("c",7))
+  }, digits=4, align="c")
   
   observeEvent(input$act.pp, {
     output$tb2.pp<-DT::renderDataTable({
@@ -130,10 +130,10 @@ shinyServer(function(input, output) {
     })
   output$text3<-renderText({
     ct()})
- observeEvent(as.numeric(input$protein.tocs)-as.numeric(input$protein.fromcs),{
+
    output$tb1<-renderTable({
    mz()$TB
-    }, digits=4, align=rep("c",2+as.numeric(input$protein.tocs)-as.numeric(input$protein.fromcs))) })
+    }, digits=4, align="c")
   
   observeEvent(input$act, {
     output$tb2<-DT::renderDataTable({
