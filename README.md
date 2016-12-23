@@ -7,6 +7,9 @@ A web application toolkit designed to facilitate mass spectrometry-based proteom
  * Incorporate PTMs with various forms  
  * Simulate *in silico* isotopic distribution with given peptide sequence (plus PTMs)  
  
+ **Shown below is an example of the simulated isotopic distribution.**  
+ ![Alt text](pics/simulate.png?raw=true "Optional Title")
+ 
 ## Protein Analysis:  
  * Generate table corresponding to monoisotopic mass of protein with user-defined charge state range  
  * Consider both fixed modification and variable modifications  
