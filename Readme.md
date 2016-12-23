@@ -1,5 +1,5 @@
 # Proteomics-Toolkit
-A web application toolkit designed to facilitate mass spectrometry-based proteomics. Highlight ***proteomics/peptidomics*** in silico computations and output.  
+A web application toolkit designed to facilitate mass spectrometry-based proteomics. Highlight ***proteomics/peptidomics*** *in silico* computations and output.  
 
 ## Peptide Analysis:  
  * Calculate monoisotopic mass of user-specified peptide sequence from +1 to +5 charge state  
